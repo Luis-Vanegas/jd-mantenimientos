@@ -1,0 +1,27 @@
+# Dependencias y builds
+node_modules/
+dist/
+.astro/
+.vercel/
+
+# Variables de entorno (solo se versiona el ejemplo)
+.env*
+!.env.example
+
+# Videos fuente del cliente: pesados y no cambian; se guardan fuera de git
+*.mp4
+
+# Tarjetas de presentación: material de imprenta con datos personales de los asesores.
+# Se trabajan en local y no se versionan ni se publican en la web.
+tarjetas/
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de trabajo locales (pruebas, respaldos y exportaciones regenerables)
+tmp/
+output/
+
+# Caché local de herramientas de IA
+.atl/
