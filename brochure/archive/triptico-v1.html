@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="es-CO">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Brochure — JD Mantenimientos Planos y Diseños SAS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ==========================================================
+       Tokens. Solo la paleta corporativa: azul rey (fondo del logo),
+       azul marino, plata del logo y blanco. Nada más.
+       ========================================================== */
+    :root {
+      --blue: #0E3B8C;        /* azul rey: paneles sólidos */
+      --navy: #06152D;        /* azul marino: texto sobre blanco y velos de foto */
+      --hl: #93C5FD;          /* azul claro: la palabra que se resalta en cada título */
+      --silver: #CBD5E1;      /* plata: texto de apoyo sobre fondos oscuros */
+      --white: #FFFFFF;
+
+      /* Carta horizontal. El panel que se dobla hacia adentro es 2,6 mm
+         más angosto para que el tríptico cierre sin abombarse. */
+      --page-w: 279.4mm;
+      --page-h: 215.9mm;
+      --panel: 94mm;
+      --panel-flap: 91.4mm;
+      --pad: 11mm;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    @page { size: 279.4mm 215.9mm; margin: 0; }
+
+    html, body {
+      font-family: 'Archivo', system-ui, sans-serif;
+      color: var(--white);
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    ul { list-style: none; }
+    img { display: block; }
+
+    /* ---------- Vista en pantalla ---------- */
+    @media screen {
+      body {
+        background: #2A3140;
+        padding: 24px 16px 64px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 28px;
+      }
+      .toolbar {
+        width: min(100%, var(--page-w));
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        font-size: 14px;
+        color: var(--silver);
+      }
+      .toolbar button {
+        background: var(--white);
+        color: var(--navy);
+        border: 0;
+        border-radius: 999px;
+        padding: 10px 20px;
+        font: inherit;
+        font-weight: 800;
+        cursor: pointer;
+      }
+      .sheet { box-shadow: 0 24px 60px rgb(0 0 0 / 45%); }
+      /* Guías de pliegue: solo en pantalla, nunca en el PDF. */
+      .panel + .panel { box-shadow: inset 1px 0 0 rgb(255 255 255 / 18%); }
+      .sheet-label {
+        width: min(100%, var(--page-w));
+        margin-bottom: -16px;
+        font-size: 12px;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        color: var(--silver);
+      }
+    }
+
+    @media print {
+      .toolbar, .sheet-label { display: none; }
+    }
+
+    /* ---------- Hoja y paneles ---------- */
+    .sheet {
+      width: var(--page-w);
+      height: var(--page-h);
+      display: grid;
+      overflow: hidden;
+      break-after: page;
+    }
+    .sheet--outside { grid-template-columns: var(--panel-flap) var(--panel) var(--panel); }
+    .sheet--inside  { grid-template-columns: var(--panel) var(--panel) var(--panel-flap); }
+
+    .panel {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 14mm var(--pad) 12mm;
+    }
+    .panel > * { position: relative; z-index: 2; }
+
+    .panel--blue { background: var(--blue); }
+    .panel--photo { background: var(--navy); }
+
+    /* Foto de fondo en blanco y negro con velo marino para que el texto se lea. */
+    .panel--photo .bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(1) contrast(1.1) brightness(.72);
+      z-index: 0;
+    }
+    .panel--photo::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(180deg, rgb(6 21 45 / 35%) 0%, rgb(6 21 45 / 10%) 40%, rgb(6 21 45 / 80%) 100%);
+    }
+
+    /* Foto que se funde con el azul en la base de un panel sólido. */
+    .fade-photo {
+      position: absolute !important;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 40%;
+      z-index: 0 !important;
+      background-size: cover;
+      background-position: center;
+      filter: grayscale(1) contrast(1.1);
+      -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 65%);
+      mask-image: linear-gradient(180deg, transparent 0%, #000 65%);
+      opacity: .6;
+    }
+
+    /* ---------- Tipografía ---------- */
+    .display {
+      font-family: 'Anton', Impact, sans-serif;
+      font-weight: 400;
+      text-transform: uppercase;
+      line-height: .98;
+      letter-spacing: .01em;
+    }
+    .display .hl { color: var(--hl); display: block; }
+    .t-xl { font-size: 39pt; }
+    .t-lg { font-size: 38pt; }
+    .t-md { font-size: 17pt; line-height: 1.02; }
+
+    .lead { font-size: 10pt; line-height: 1.5; color: var(--white); }
+    .small { font-size: 8.5pt; line-height: 1.5; color: var(--silver); }
+    .caps {
+      font-size: 8pt;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    /* ==========================================================
+       CARA EXTERIOR
+       ========================================================== */
+
+    /* Solapa: llamado principal sobre foto */
+    .p-hook { justify-content: center; text-align: center; }
+    .p-hook .lead { margin-top: 7mm; font-weight: 700; font-size: 11pt; }
+    .p-hook .foot { position: absolute; left: 0; right: 0; bottom: 12mm; }
+
+    /* Contraportada: contacto */
+    .p-contact { align-items: center; text-align: center; }
+    .p-contact .display { margin-top: 6mm; }
+    .contact-list { margin-top: 12mm; display: grid; gap: 9mm; }
+    .contact-list li { display: grid; justify-items: center; gap: 2mm; }
+    .contact-list svg { width: 7mm; height: 7mm; color: var(--white); }
+    .contact-list strong { font-size: 11.5pt; font-weight: 800; letter-spacing: .02em; }
+    .contact-list .mail { font-size: 9.5pt; }
+    .contact-list span { font-size: 8pt; color: var(--silver); letter-spacing: .08em; text-transform: uppercase; }
+
+    /* Portada: logo y posicionamiento */
+    .p-cover { justify-content: space-between; text-align: center; }
+    .p-cover .logo { width: 70mm; margin: 6mm auto 0; filter: drop-shadow(0 2mm 4mm rgb(0 0 0 / 50%)); }
+    .p-cover .display { margin-top: 4mm; font-size: 20pt; }
+    .p-cover .tagline { color: var(--silver); font-size: 9.5pt; margin-top: 4mm; }
+
+    /* ==========================================================
+       CARA INTERIOR
+       ========================================================== */
+
+    /* Panel izquierdo: tecnología destacada */
+    .features { display: grid; gap: 12mm; text-align: center; margin-top: 4mm; }
+    .features .display { margin-bottom: 2.5mm; font-size: 21pt; }
+    .features .small { color: var(--white); font-size: 9pt; }
+
+    /* Panel central: lista de servicios en píldoras */
+    .p-services { align-items: center; text-align: center; justify-content: center; }
+    .pills { margin-top: 9mm; display: grid; gap: 3.2mm; width: 64mm; }
+    .pills li {
+      background: var(--white);
+      color: var(--navy);
+      border-radius: 999px;
+      padding: 2.6mm 4mm;
+      font-size: 9.5pt;
+      font-weight: 800;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    /* Panel derecho: la empresa */
+    .p-about { justify-content: center; text-align: center; }
+    .p-about .lead { margin-top: 8mm; }
+    .values { margin-top: 8mm; display: flex; flex-wrap: wrap; justify-content: center; gap: 2mm; }
+    .values li {
+      border: 1px solid rgb(255 255 255 / 45%);
+      border-radius: 999px;
+      padding: 1.2mm 3mm;
+      font-size: 7.5pt;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .p-about .foot { margin-top: 10mm; font-weight: 800; font-size: 10pt; letter-spacing: .04em; }
+  </style>
+</head>
+<body>
+  <!-- Iconos de contacto (mismos trazos que la web). -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z"/></symbol>
+      <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+      <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="toolbar">
+    <span>Tríptico carta horizontal · 2 caras · se imprime a doble cara volteando por el borde corto</span>
+    <button type="button" onclick="window.print()">Imprimir / Guardar PDF</button>
+  </div>
+
+  <!-- ===================== CARA EXTERIOR ===================== -->
+  <p class="sheet-label">Cara exterior · solapa · contraportada · portada</p>
+  <section class="sheet sheet--outside" aria-label="Cara exterior">
+
+    <!-- Solapa (se ve al abrir la portada) -->
+    <article class="panel panel--photo p-hook">
+      <img class="bg" src="../web/public/images/svc-limpieza.jpg" alt="" />
+      <h2 class="display t-xl">Diagnóstico<br />sin romper<span class="hl">pisos</span></h2>
+      <p class="lead">¡Prevenir es más barato que reparar!</p>
+      <p class="caps foot">Medellín y Antioquia</p>
+    </article>
+
+    <!-- Contraportada -->
+    <article class="panel panel--blue p-contact">
+      <div class="fade-photo" style="background-image:url('../web/public/images/svc-fugas.jpg')"></div>
+      <h2 class="display t-lg">Contacto</h2>
+      <ul class="contact-list">
+        <li>
+          <svg aria-hidden="true"><use href="#i-phone" /></svg>
+          <strong>301 415 18 88</strong>
+          <span>Llamadas y WhatsApp</span>
+        </li>
+        <li>
+          <svg aria-hidden="true"><use href="#i-mail" /></svg>
+          <strong class="mail">jdgerenciamantenimientos@gmail.com</strong>
+          <span>Cotizaciones e informes</span>
+        </li>
+        <li>
+          <svg aria-hidden="true"><use href="#i-pin" /></svg>
+          <strong>Medellín y Antioquia</strong>
+          <span>Cobertura</span>
+        </li>
+      </ul>
+    </article>
+
+    <!-- Portada -->
+    <article class="panel panel--photo p-cover">
+      <img class="bg" src="../web/public/images/hero-tech.jpg" alt="" />
+      <img class="logo" src="../assets/brand/logo-jd.png" alt="JD Mantenimientos Planos y Diseños" />
+      <div>
+        <h1 class="display t-md">Mantenimiento de redes<span class="hl">hidrosanitarias y alcantarillado</span></h1>
+        <p class="tagline">Tu proyecto en buenas manos</p>
+      </div>
+    </article>
+  </section>
+
+  <!-- ===================== CARA INTERIOR ===================== -->
+  <p class="sheet-label">Cara interior · tecnología · servicios · empresa</p>
+  <section class="sheet sheet--inside" aria-label="Cara interior">
+
+    <!-- Tecnología destacada -->
+    <article class="panel panel--blue">
+      <div class="fade-photo" style="background-image:url('../web/public/images/svc-camara.jpg')"></div>
+      <ul class="features">
+        <li>
+          <h3 class="display t-md">Inspección<br />con cámara</h3>
+          <p class="small">Vemos el interior de la tubería en video y ubicamos fisuras u obstrucciones sin romper estructuras.</p>
+        </li>
+        <li>
+          <h3 class="display t-md">Limpieza a<br />alta presión</h3>
+          <p class="small">Equipos hidrojet que eliminan grasa, raíces e incrustaciones y devuelven el flujo a la red.</p>
+        </li>
+        <li>
+          <h3 class="display t-md">Localización<br />de fugas</h3>
+          <p class="small">Tecnología no invasiva para encontrar fugas ocultas antes de que causen daños mayores.</p>
+        </li>
+      </ul>
+    </article>
+
+    <!-- Servicios -->
+    <article class="panel panel--photo p-services">
+      <img class="bg" src="../web/public/images/svc-obras.jpg" alt="" />
+      <h2 class="display t-lg">Nuestros<span class="hl">servicios</span></h2>
+      <ul class="pills">
+        <li>Inspección con cámara</li>
+        <li>Limpieza de tuberías</li>
+        <li>Localización de tuberías</li>
+        <li>Localización de fugas</li>
+        <li>Planos hidrosanitarios</li>
+        <li>Obras civiles</li>
+      </ul>
+    </article>
+
+    <!-- La empresa (cara posterior de la solapa) -->
+    <article class="panel panel--blue p-about">
+      <h2 class="display t-lg">Nuestra<span class="hl">empresa</span></h2>
+      <p class="lead">Ofrecemos soluciones tecnológicas en mantenimiento e inspección de redes hidrosanitarias y obras civiles, con equipos especializados y personal calificado. Nuestra meta: consolidarnos en Medellín y Antioquia en 2027 y llegar a todo el país en 2030.</p>
+      <ul class="values">
+        <li>Responsabilidad</li>
+        <li>Innovación</li>
+        <li>Transparencia</li>
+        <li>Compromiso ambiental</li>
+        <li>Calidad</li>
+      </ul>
+      <p class="foot">WhatsApp 301 415 18 88</p>
+    </article>
+  </section>
+</body>
+</html>
