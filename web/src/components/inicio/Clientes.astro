@@ -1,0 +1,73 @@
+---
+// Franja de confianza con logos de clientes autorizados, en gris para no competir con la marca.
+import { Image } from 'astro:assets';
+import { clientes } from '../../data/empresa';
+---
+<section class="clientes" aria-labelledby="clientes-titulo">
+  <div class="wrap">
+    <h2 id="clientes-titulo">Empresas que han confiado en nosotros</h2>
+    <ul>
+      {clientes.map((cliente) => (
+        <li class:list={{ oscuro: cliente.fondoOscuro }}>
+          <Image src={cliente.logo} alt={cliente.nombre} height={40} loading="lazy" />
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .clientes {
+    padding-block: 40px;
+    border-top: 1px solid var(--line);
+    background: var(--surface);
+  }
+
+  h2 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--ink-2);
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 24px;
+  }
+
+  /* Cada logo en una ficha del mismo alto para que marcas de proporciones distintas se vean parejas. */
+  li {
+    display: grid;
+    place-items: center;
+    width: 180px;
+    height: 76px;
+    padding: 14px 20px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--white);
+  }
+
+  li.oscuro { background: var(--navy); border-color: var(--navy); }
+
+  img {
+    width: auto;
+    max-width: 100%;
+    max-height: 40px;
+    object-fit: contain;
+    filter: grayscale(1);
+    opacity: 0.75;
+    transition: filter 0.2s ease, opacity 0.2s ease;
+  }
+
+  li:hover img { filter: none; opacity: 1; }
+
+  @media (max-width: 420px) {
+    li { width: calc(50% - 7px); }
+  }
+</style>

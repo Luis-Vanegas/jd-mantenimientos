@@ -1,0 +1,170 @@
+---
+// Portada: mensaje principal a la izquierda y fotografía del técnico a la derecha,
+// fundida con el azul marino mediante un degradado para que el texto siempre sea legible.
+import { Image } from 'astro:assets';
+import Icono from '../Icono.astro';
+import { empresa, hero, pilaresHero } from '../../data/empresa';
+---
+<section class="hero" id="inicio" aria-labelledby="hero-titulo">
+  <Image
+    class="hero-foto"
+    src={hero.imagen}
+    alt={hero.imagenAlt}
+    widths={[768, 1280, 1536]}
+    sizes="(max-width: 900px) 100vw, 60vw"
+    loading="eager"
+    fetchpriority="high"
+  />
+
+  <div class="wrap hero-contenido">
+    <p class="kicker">{empresa.nombre}</p>
+    <h1 id="hero-titulo">
+      Soluciones para tu hogar <span>y obra, en un solo lugar</span>
+    </h1>
+    <p class="bajada">
+      Mantenimiento de redes hidrosanitarias, plomería, obras civiles, planos y una ferretería
+      completa. Todo lo que tu proyecto necesita, con calidad y confianza.
+    </p>
+
+    <div class="acciones">
+      <a class="btn btn-whatsapp" href={empresa.whatsappHref} target="_blank" rel="noopener noreferrer">
+        <Icono nombre="wa" />
+        Solicitar servicio por WhatsApp
+      </a>
+      <a class="btn btn-ghost" href="#servicios">
+        Ver servicios
+        <Icono nombre="arrow" />
+      </a>
+    </div>
+
+    <ul class="pilares">
+      {pilaresHero.map((pilar) => (
+        <li>
+          <Icono nombre={pilar.icono} />
+          <span><strong>{pilar.titulo}</strong> {pilar.detalle}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <p class="lema" aria-hidden="true">{empresa.lema}</p>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: var(--navy);
+    color: var(--white);
+  }
+
+  .hero-foto {
+    position: absolute;
+    inset: 0 0 0 auto;
+    z-index: -2;
+    width: 62%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 30% center;
+  }
+
+  /* Degradado que funde la foto con el fondo; sin él el texto perdería contraste. */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(90deg, var(--navy) 38%, rgb(6 21 45 / 70%) 58%, rgb(6 21 45 / 10%) 100%);
+  }
+
+  .hero-contenido {
+    padding-block: clamp(56px, 9vw, 112px);
+    animation: aparecer 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .hero .kicker { color: var(--ink-on-dark-2); }
+
+  h1 {
+    max-width: 14ch;
+    margin-top: 16px;
+    font-size: clamp(2.25rem, 5.4vw, 3.75rem);
+    font-weight: 800;
+    line-height: 1.04;
+    letter-spacing: -0.025em;
+  }
+
+  h1 span { display: block; color: var(--accent); }
+
+  .bajada {
+    max-width: 48ch;
+    margin-top: 20px;
+    font-size: 1.06rem;
+    color: var(--ink-on-dark);
+  }
+
+  .acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+  }
+
+  .pilares {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 32px;
+    margin-top: 44px;
+    font-size: 0.92rem;
+    color: var(--ink-on-dark-2);
+  }
+
+  .pilares li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .pilares .icono {
+    width: 28px;
+    height: 28px;
+    color: var(--accent);
+  }
+
+  .pilares strong {
+    display: block;
+    color: var(--white);
+    font-weight: 600;
+  }
+
+  .lema {
+    position: absolute;
+    right: var(--gutter);
+    bottom: 28px;
+    padding: 8px 14px;
+    border-left: 3px solid var(--accent);
+    background: rgb(6 21 45 / 72%);
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-style: italic;
+  }
+
+  @keyframes aparecer {
+    from { opacity: 0; transform: translateY(14px); }
+  }
+
+  /* En móvil la foto queda arriba del texto en lugar de detrás. */
+  @media (max-width: 900px) {
+    .hero-foto {
+      position: relative;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 10;
+    }
+
+    .hero::before { display: none; }
+
+    .hero-contenido { padding-block: 32px 48px; }
+    .lema { display: none; }
+  }
+</style>

@@ -1,0 +1,54 @@
+---
+// Layout base: metadatos SEO/Open Graph, datos estructurados del negocio, fuente y sprite de iconos.
+import '../styles/global.css';
+import Iconos from '../components/Iconos.astro';
+import { empresa } from '../data/empresa';
+import { ruta } from '../lib/rutas';
+
+interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+
+// Datos estructurados para que Google muestre el negocio local con teléfono y dirección.
+const negocio = {
+  '@context': 'https://schema.org',
+  '@type': 'HomeAndConstructionBusiness',
+  name: empresa.razonSocial,
+  description: empresa.descripcion,
+  telephone: `+57 ${empresa.telefonoVisible}`,
+  email: empresa.correo,
+  areaServed: empresa.cobertura,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: empresa.direccion,
+    addressLocality: empresa.ciudad,
+    addressCountry: 'CO',
+  },
+};
+---
+<!doctype html>
+<html lang="es-CO">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_CO" />
+    <meta name="theme-color" content="#06152D" />
+    <link rel="icon" type="image/png" href={ruta('favicon.png')} />
+    <link rel="apple-touch-icon" href={ruta('apple-touch-icon.png')} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script type="application/ld+json" set:html={JSON.stringify(negocio)} />
+  </head>
+  <body>
+    <Iconos />
+    <slot />
+  </body>
+</html>

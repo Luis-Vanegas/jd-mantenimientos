@@ -1,0 +1,96 @@
+---
+// Depósito y ferretería: texto + foto ambiental + categorías con icono.
+// No hay fotos propias por categoría, por eso se usan iconos (ver docs/pendientes-web.md).
+import { Image } from 'astro:assets';
+import Icono from '../Icono.astro';
+import { empresa, ferreteria } from '../../data/empresa';
+---
+<section class="section section-dark" id="ferreteria" aria-labelledby="ferreteria-titulo">
+  <div class="wrap distribucion">
+    <div class="texto">
+      <p class="kicker">Depósito y ferretería</p>
+      <h2 class="section-title" id="ferreteria-titulo">
+        <em>Materiales</em> de calidad para tus proyectos
+      </h2>
+      <p class="section-lead">
+        Encuentra en un solo lugar lo que necesitas para construir, remodelar o hacer
+        mantenimiento. Te asesoramos para que compres solo lo necesario.
+      </p>
+      <a class="btn btn-whatsapp" href={empresa.whatsappMaterialesHref} target="_blank" rel="noopener noreferrer">
+        <Icono nombre="wa" />
+        Cotizar materiales
+      </a>
+    </div>
+
+    <div class="catalogo">
+      <Image
+        class="foto"
+        src={ferreteria.imagen}
+        alt={ferreteria.imagenAlt}
+        widths={[640, 960]}
+        sizes="(max-width: 900px) 100vw, 640px"
+        loading="lazy"
+      />
+      <ul class="categorias">
+        {ferreteria.categorias.map((categoria) => (
+          <li>
+            <Icono nombre={categoria.icono} />
+            {categoria.nombre}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .distribucion {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(32px, 5vw, 64px);
+    align-items: center;
+  }
+
+  .texto .btn { margin-top: 28px; }
+
+  .foto {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: var(--radius);
+  }
+
+  .categorias {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .categorias li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border: 1px solid var(--line-dark);
+    border-radius: var(--radius-sm);
+    background: var(--navy-2);
+    font-size: 0.88rem;
+    font-weight: 500;
+    line-height: 1.25;
+  }
+
+  .categorias .icono {
+    width: 22px;
+    height: 22px;
+    color: var(--accent);
+  }
+
+  @media (max-width: 900px) {
+    .distribucion { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 520px) {
+    .categorias { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+</style>

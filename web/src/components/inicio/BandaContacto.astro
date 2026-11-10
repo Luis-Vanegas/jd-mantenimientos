@@ -1,0 +1,76 @@
+---
+// Franja de llamado a la acción entre secciones: una sola acción, WhatsApp.
+import Icono from '../Icono.astro';
+import { empresa } from '../../data/empresa';
+---
+<section class="banda" aria-labelledby="banda-titulo">
+  <div class="wrap contenido">
+    <div class="mensaje">
+      <Icono nombre="helmet" class="casco" />
+      <div>
+        <h2 id="banda-titulo">¿Necesitas materiales o un técnico?</h2>
+        <p>Escríbenos por WhatsApp y recibe asesoría inmediata.</p>
+      </div>
+    </div>
+    <div class="accion">
+      <a class="btn btn-whatsapp" href={empresa.whatsappHref} target="_blank" rel="noopener noreferrer">
+        <Icono nombre="wa" />
+        Solicitar por WhatsApp
+      </a>
+      <small>Rápido · Fácil · Sin complicaciones</small>
+    </div>
+  </div>
+</section>
+
+<style>
+  .banda {
+    background: linear-gradient(100deg, var(--blue) 0%, var(--navy-2) 100%);
+    color: var(--white);
+  }
+
+  .contenido {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px 40px;
+    padding-block: 40px;
+  }
+
+  .mensaje {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .casco {
+    width: 56px;
+    height: 56px;
+    color: var(--accent);
+    stroke-width: 1.4;
+  }
+
+  h2 {
+    font-size: clamp(1.4rem, 2.8vw, 1.9rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+  }
+
+  .mensaje p { margin-top: 6px; color: var(--ink-on-dark); }
+
+  .accion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .accion .btn { min-height: 54px; padding-inline: 28px; font-size: 1rem; }
+  .accion small { font-size: 0.82rem; color: var(--ink-on-dark-2); }
+
+  @media (max-width: 560px) {
+    .casco { display: none; }
+    .accion, .accion .btn { width: 100%; }
+  }
+</style>

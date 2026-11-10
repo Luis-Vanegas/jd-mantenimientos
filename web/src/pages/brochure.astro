@@ -1,0 +1,9 @@
+---
+// Muestra el brochure (HTML independiente de brochure/) dentro del sitio, reescribiendo
+// sus rutas relativas de imágenes hacia la copia publicada en public/brochure-assets/.
+import brochureHtml from '../../../brochure/index.html?raw';
+import { ruta } from '../lib/rutas';
+
+const html = brochureHtml.replaceAll('assets/', ruta('brochure-assets/'));
+---
+<Fragment set:html={html} />

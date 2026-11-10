@@ -1,0 +1,39 @@
+---
+// Logotipo horizontal (isotipo metálico + nombre). Se reutiliza en encabezado y pie.
+import { Image } from 'astro:assets';
+import isotipo from '../../assets/isotipo-jd.png';
+import { empresa } from '../../data/empresa';
+---
+<a class="marca" href="#inicio" aria-label={`${empresa.nombre}, ir al inicio`}>
+  <Image src={isotipo} alt="" width={56} height={42} />
+  <span>
+    <strong>JD MANTENIMIENTOS</strong>
+    <small>{empresa.subtituloMarca}</small>
+  </span>
+</a>
+
+<style>
+  .marca {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--white);
+  }
+
+  .marca span {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+  }
+
+  .marca strong {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  .marca small {
+    font-size: 0.82rem;
+    color: var(--ink-on-dark-2);
+  }
+</style>

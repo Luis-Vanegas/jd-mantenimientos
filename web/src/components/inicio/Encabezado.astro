@@ -1,0 +1,107 @@
+---
+// Encabezado fijo: marca, menú y acceso directo a WhatsApp.
+// En móvil el menú pasa a una franja con desplazamiento horizontal (sin JavaScript).
+import Marca from './Marca.astro';
+import Icono from '../Icono.astro';
+import { empresa, navegacion } from '../../data/empresa';
+---
+<header class="encabezado">
+  <div class="wrap barra">
+    <Marca />
+
+    <nav class="menu" aria-label="Navegación principal">
+      {navegacion.map((item) => <a href={item.href}>{item.texto}</a>)}
+    </nav>
+
+    <a class="btn btn-whatsapp cta" href={empresa.whatsappHref} target="_blank" rel="noopener noreferrer">
+      <Icono nombre="wa" />
+      <span>WhatsApp</span>
+    </a>
+  </div>
+
+  <nav class="menu-movil" aria-label="Navegación móvil">
+    <div class="wrap">
+      {navegacion.map((item) => <a href={item.href}>{item.texto}</a>)}
+    </div>
+  </nav>
+</header>
+
+<style>
+  .encabezado {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: rgb(6 21 45 / 94%);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line-dark);
+    color: var(--white);
+  }
+
+  .barra {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    min-height: var(--header-h);
+  }
+
+  .menu {
+    display: flex;
+    gap: 28px;
+    font-size: 0.92rem;
+    font-weight: 500;
+  }
+
+  .menu a,
+  .menu-movil a {
+    position: relative;
+    color: var(--ink-on-dark-2);
+    transition: color 0.2s ease;
+  }
+
+  .menu a:hover,
+  .menu-movil a:hover { color: var(--white); }
+
+  /* Subrayado de acento al pasar el cursor, como en la referencia. */
+  .menu a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -6px;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.2s ease;
+  }
+
+  .menu a:hover::after { transform: scaleX(1); }
+
+  .cta { min-height: 42px; padding: 10px 18px; }
+
+  .menu-movil { display: none; }
+
+  @media (max-width: 900px) {
+    .menu { display: none; }
+
+    .menu-movil {
+      display: block;
+      border-top: 1px solid var(--line-dark);
+    }
+
+    .menu-movil .wrap {
+      display: flex;
+      gap: 22px;
+      overflow-x: auto;
+      padding-block: 10px;
+      font-size: 0.88rem;
+      white-space: nowrap;
+      scrollbar-width: none;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .cta span { display: none; }
+    .cta { padding: 10px 12px; }
+  }
+</style>

@@ -1,0 +1,181 @@
+/*
+ * Estilos globales: tokens de marca, reset y piezas compartidas (contenedor, botones,
+ * encabezados de sección). Lo específico de cada sección vive en su componente (<style> con alcance).
+ */
+
+:root {
+  /* Marca: azul marino y azul rey del logo, plata y blanco (ver DESIGN.md). */
+  --navy: #06152D;
+  --navy-2: #0B1F3F;
+  --blue: #0E3B8C;
+  --blue-bright: #1D4ED8;
+  /* Acento único de la página (subrayados, iconos, palabras resaltadas).
+     Se mantiene azul a propósito: la marca no usa amarillo (decisión del 2026-11-10). */
+  --accent: #60A5FA;
+  /* Verde WhatsApp oscurecido para que el texto blanco cumpla contraste AA (≈5:1). */
+  --whatsapp: #107E38;
+  --whatsapp-hover: #0C6A2F;
+
+  --surface: #F4F6F9;
+  --white: #FFFFFF;
+  --ink: #0A1628;
+  --ink-2: rgb(10 22 40 / 68%);
+  --ink-on-dark: #E6ECF5;
+  --ink-on-dark-2: rgb(230 236 245 / 72%);
+  --line: rgb(10 22 40 / 10%);
+  --line-dark: rgb(255 255 255 / 12%);
+
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 1px 2px rgb(6 21 45 / 6%), 0 8px 24px rgb(6 21 45 / 8%);
+  --wrap: 1200px;
+  --gutter: clamp(16px, 4vw, 40px);
+  --section-y: clamp(56px, 8vw, 96px);
+  --header-h: 72px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 16px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+body {
+  font-family: 'Archivo', system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--white);
+  -webkit-font-smoothing: antialiased;
+}
+
+img, svg { display: block; max-width: 100%; }
+img { height: auto; }
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Icono de línea del sprite; el tamaño lo define quien lo usa. */
+.icono {
+  width: 1.25em;
+  height: 1.25em;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.wrap {
+  width: min(100% - 2 * var(--gutter), var(--wrap));
+  margin-inline: auto;
+}
+
+.section { padding-block: var(--section-y); }
+.section-dark { background: var(--navy); color: var(--ink-on-dark); }
+
+/* Encabezado de sección: rótulo pequeño con línea de acento + título + bajada. */
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+
+.kicker::before {
+  content: '';
+  width: 28px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+.section-dark .kicker { color: var(--ink-on-dark-2); }
+
+.section-title {
+  margin-top: 12px;
+  font-size: clamp(1.75rem, 3.6vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.section-title em {
+  font-style: normal;
+  color: var(--blue-bright);
+}
+
+.section-dark .section-title em { color: var(--accent); }
+
+.section-lead {
+  margin-top: 14px;
+  max-width: 56ch;
+  color: var(--ink-2);
+}
+
+.section-dark .section-lead { color: var(--ink-on-dark-2); }
+
+/* Botones */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 12px 22px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid transparent;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn:hover { transform: translateY(-1px); }
+.btn .icono { width: 20px; height: 20px; }
+
+.btn-whatsapp { background: var(--whatsapp); color: var(--white); }
+.btn-whatsapp:hover { background: var(--whatsapp-hover); }
+
+.btn-primary { background: var(--blue-bright); color: var(--white); }
+.btn-primary:hover { background: var(--blue); }
+
+.btn-ghost { border-color: rgb(255 255 255 / 35%); color: var(--white); }
+.btn-ghost:hover { border-color: var(--white); background: rgb(255 255 255 / 6%); }
+
+.skip-link {
+  position: absolute;
+  left: 16px;
+  top: -100px;
+  z-index: 100;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.skip-link:focus { top: 16px; }

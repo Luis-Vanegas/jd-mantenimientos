@@ -1,0 +1,119 @@
+---
+// Tarjetas de servicios con foto, icono y descripción corta. Los datos vienen de `servicios`.
+import { Image } from 'astro:assets';
+import Icono from '../Icono.astro';
+import { empresa, servicios } from '../../data/empresa';
+---
+<section class="section servicios" id="servicios" aria-labelledby="servicios-titulo">
+  <div class="wrap">
+    <header class="cabecera">
+      <div>
+        <p class="kicker">Nuestros servicios</p>
+        <h2 class="section-title" id="servicios-titulo">
+          Servicios que mantienen<br /><em>tu espacio en las mejores condiciones</em>
+        </h2>
+        <p class="section-lead">
+          Personal capacitado y equipos especializados para un servicio eficiente, seguro y de calidad.
+        </p>
+      </div>
+      <a class="enlace" href={empresa.whatsappHref} target="_blank" rel="noopener noreferrer">
+        Cotizar un servicio <Icono nombre="arrow" />
+      </a>
+    </header>
+
+    <ul class="grilla">
+      {servicios.map((servicio) => (
+        <li class="tarjeta">
+          <Image
+            src={servicio.imagen}
+            alt={servicio.imagenAlt}
+            widths={[400, 640]}
+            sizes="(max-width: 640px) 100vw, 260px"
+            loading="lazy"
+          />
+          <div class="cuerpo">
+            <Icono nombre={servicio.icono} />
+            <h3>{servicio.titulo}</h3>
+            <p>{servicio.texto}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .servicios { background: var(--surface); }
+
+  .cabecera {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .enlace {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--blue);
+  }
+
+  .enlace:hover { color: var(--blue-bright); }
+
+  /* Columnas fijas por rango (5 → 3 → 2 → 1) para no dejar una tarjeta huérfana con auto-fit. */
+  .grilla {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 40px;
+  }
+
+  @media (max-width: 1100px) { .grilla { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 760px) { .grilla { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 480px) { .grilla { grid-template-columns: 1fr; } }
+
+  .tarjeta {
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--white);
+    box-shadow: var(--shadow);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .tarjeta:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 2px 4px rgb(6 21 45 / 6%), 0 16px 32px rgb(6 21 45 / 14%);
+  }
+
+  .tarjeta img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  .cuerpo { padding: 18px 18px 22px; }
+
+  .cuerpo .icono {
+    width: 30px;
+    height: 30px;
+    color: var(--blue);
+  }
+
+  h3 {
+    margin-top: 12px;
+    font-size: 1.02rem;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  .cuerpo p {
+    margin-top: 8px;
+    font-size: 0.9rem;
+    color: var(--ink-2);
+  }
+</style>

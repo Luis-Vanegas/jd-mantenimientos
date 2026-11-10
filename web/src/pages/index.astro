@@ -1,0 +1,32 @@
+---
+// Página de inicio. Solo compone las secciones; el contenido vive en `data/empresa.ts`
+// y el diseño de cada bloque en su propio componente de `components/inicio/`.
+import Base from '../layouts/Base.astro';
+import Encabezado from '../components/inicio/Encabezado.astro';
+import Hero from '../components/inicio/Hero.astro';
+import Servicios from '../components/inicio/Servicios.astro';
+import Ferreteria from '../components/inicio/Ferreteria.astro';
+import BandaContacto from '../components/inicio/BandaContacto.astro';
+import ComoTrabajamos from '../components/inicio/ComoTrabajamos.astro';
+import Clientes from '../components/inicio/Clientes.astro';
+import PiePagina from '../components/inicio/PiePagina.astro';
+import { empresa } from '../data/empresa';
+---
+<Base
+  title={`${empresa.nombre} ${empresa.subtituloMarca} | Mantenimiento, plomería, planos y ferretería en Medellín`}
+  description={empresa.descripcion}
+>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <Encabezado />
+
+  <main id="contenido">
+    <Hero />
+    <Servicios />
+    <Ferreteria />
+    <BandaContacto />
+    <ComoTrabajamos />
+    <Clientes />
+  </main>
+
+  <PiePagina />
+</Base>

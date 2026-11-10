@@ -1,0 +1,12 @@
+---
+// Referencia a un símbolo del sprite. Es decorativo por defecto: el texto vecino da el significado.
+// Los atributos extra se reenvían al <svg> para que los estilos con alcance del padre lo alcancen.
+import type { HTMLAttributes } from 'astro/types';
+import type { Icono } from '../data/empresa';
+
+interface Props extends HTMLAttributes<'svg'> {
+  nombre: Icono | 'wa' | 'phone' | 'mail' | 'pin' | 'download' | 'arrow';
+}
+const { nombre, class: clase, ...resto } = Astro.props;
+---
+<svg class:list={['icono', clase]} aria-hidden="true" {...resto}><use href={`#i-${nombre}`} /></svg>

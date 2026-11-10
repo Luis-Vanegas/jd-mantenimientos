@@ -1,0 +1,143 @@
+---
+// Pie de página: marca, enlaces, datos de contacto y descarga del brochure.
+// Las redes sociales se agregan cuando el cliente entregue los enlaces (docs/pendientes-web.md).
+import Marca from './Marca.astro';
+import Icono from '../Icono.astro';
+import { empresa, navegacion } from '../../data/empresa';
+
+const anio = new Date().getFullYear();
+---
+<footer class="pie" id="contacto">
+  <div class="wrap columnas">
+    <div class="marca-col">
+      <Marca />
+      <p>{empresa.lema}. Atendemos en {empresa.cobertura}.</p>
+    </div>
+
+    <nav aria-label="Enlaces del pie de página">
+      <h2>Enlaces</h2>
+      <ul>
+        {navegacion.map((item) => <li><a href={item.href}>{item.texto}</a></li>)}
+      </ul>
+    </nav>
+
+    <div>
+      <h2>Contáctanos</h2>
+      <ul class="contacto">
+        <li>
+          <Icono nombre="wa" />
+          <a href={empresa.whatsappHref} target="_blank" rel="noopener noreferrer">
+            WhatsApp <span>{empresa.telefonoVisible}</span>
+          </a>
+        </li>
+        <li>
+          <Icono nombre="phone" />
+          <a href={empresa.telefonoHref}>Llamar <span>{empresa.telefonoVisible}</span></a>
+        </li>
+        <li>
+          <Icono nombre="mail" />
+          <a href={`mailto:${empresa.correo}`}>Correo <span>{empresa.correo}</span></a>
+        </li>
+        <li>
+          <Icono nombre="pin" />
+          <p>Ubicación <span>{empresa.direccion}, {empresa.ciudad}</span></p>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <h2>Brochure</h2>
+      <a class="descarga" href={empresa.brochureUrl} download={empresa.brochureNombreDescarga}>
+        <Icono nombre="download" />
+        Descargar PDF
+      </a>
+    </div>
+  </div>
+
+  <div class="wrap legal">
+    <small>© {anio} {empresa.razonSocial}. Todos los derechos reservados.</small>
+  </div>
+</footer>
+
+<style>
+  .pie {
+    background: var(--navy);
+    color: var(--ink-on-dark-2);
+    font-size: 0.9rem;
+  }
+
+  .columnas {
+    display: grid;
+    grid-template-columns: 1.4fr 0.8fr 1.4fr 0.8fr;
+    gap: 40px;
+    padding-block: 56px 40px;
+  }
+
+  .marca-col p { margin-top: 16px; max-width: 32ch; }
+
+  h2 {
+    margin-bottom: 14px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  nav ul { display: grid; gap: 8px; }
+
+  a:hover { color: var(--white); }
+
+  .contacto { display: grid; gap: 14px; }
+
+  .contacto li {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .contacto .icono {
+    width: 22px;
+    height: 22px;
+    color: var(--accent);
+  }
+
+  .contacto a,
+  .contacto p {
+    color: var(--white);
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  /* El dato va debajo de la etiqueta y en peso normal, como en la referencia. */
+  .contacto span {
+    display: block;
+    font-weight: 400;
+    color: var(--ink-on-dark-2);
+    overflow-wrap: anywhere;
+  }
+
+  .descarga {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border: 1px solid var(--line-dark);
+    border-radius: var(--radius-sm);
+    color: var(--white);
+    font-weight: 600;
+  }
+
+  .descarga:hover { border-color: var(--white); }
+
+  .legal {
+    padding-block: 20px;
+    border-top: 1px solid var(--line-dark);
+  }
+
+  @media (max-width: 900px) {
+    .columnas { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 560px) {
+    .columnas { grid-template-columns: 1fr; }
+  }
+</style>
