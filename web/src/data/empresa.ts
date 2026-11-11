@@ -26,7 +26,7 @@ export type Icono =
   | 'paint' | 'bulb' | 'drop' | 'bolt' | 'pipe' | 'tools' | 'brick' | 'sand' | 'layers';
 
 // Celular sin indicativo: se reutiliza para tel:, WhatsApp y el texto visible.
-const celular = '3246626737';
+const celular = '3014151888';
 
 /** Arma un enlace de WhatsApp con un mensaje prellenado para saber desde dónde escribe el cliente. */
 export const crearEnlaceWhatsApp = (mensaje: string) =>
@@ -39,7 +39,7 @@ export const empresa = {
   lema: 'Tu proyecto en buenas manos',
   descripcion:
     'Mantenimiento, diagnóstico y construcción de redes hidrosanitarias, planos 2D y 3D, obras civiles, plomería y venta de materiales de construcción en Medellín y Antioquia.',
-  telefonoVisible: '324 662 67 37',
+  telefonoVisible: '301 415 18 88',
   telefonoHref: `tel:+57${celular}`,
   whatsappHref: crearEnlaceWhatsApp('Hola, quiero solicitar un servicio de JD Mantenimientos.'),
   whatsappMaterialesHref: crearEnlaceWhatsApp(
