@@ -1,5 +1,5 @@
 ---
-// Tarjetas de servicios con foto, icono y descripción corta. Los datos vienen de `servicios`.
+// Catálogo de servicios: la primera foto abre la lista y las demás acompañan cada descripción.
 import { Image } from 'astro:assets';
 import Icono from '../Icono.astro';
 import { empresa, servicios } from '../../data/empresa';
@@ -22,13 +22,13 @@ import { empresa, servicios } from '../../data/empresa';
     </header>
 
     <ul class="grilla">
-      {servicios.map((servicio) => (
+      {servicios.map((servicio, indice) => (
         <li class="tarjeta">
           <Image
             src={servicio.imagen}
             alt={servicio.imagenAlt}
             widths={[400, 640]}
-            sizes="(max-width: 640px) 100vw, 260px"
+            sizes={indice === 0 ? '(max-width: 760px) 100vw, 48vw' : '128px'}
             loading="lazy"
           />
           <div class="cuerpo">
@@ -57,63 +57,76 @@ import { empresa, servicios } from '../../data/empresa';
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    min-height: 44px;
     font-weight: 700;
     font-size: 0.92rem;
     color: var(--blue);
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
   }
 
   .enlace:hover { color: var(--blue-bright); }
 
-  /* Columnas fijas por rango (5 → 3 → 2 → 1) para no dejar una tarjeta huérfana con auto-fit. */
   .grilla {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 18px;
-    margin-top: 40px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(24px, 5vw, 72px);
+    margin-top: 28px;
   }
-
-  @media (max-width: 1100px) { .grilla { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-  @media (max-width: 760px) { .grilla { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  @media (max-width: 480px) { .grilla { grid-template-columns: 1fr; } }
 
   .tarjeta {
-    overflow: hidden;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    background: var(--white);
-    box-shadow: var(--shadow);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    display: grid;
+    grid-template-columns: clamp(64px, 12vw, 128px) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(12px, 2vw, 24px);
+    padding-block: 14px;
+    border-top: 1px solid var(--line);
   }
 
-  .tarjeta:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 2px 4px rgb(6 21 45 / 6%), 0 16px 32px rgb(6 21 45 / 14%);
+  .tarjeta:first-child {
+    display: block;
+    grid-row: span 4;
+    padding: 0 0 18px;
+    border-top: 0;
   }
 
   .tarjeta img {
     width: 100%;
     aspect-ratio: 4 / 3;
     object-fit: cover;
+    border-radius: var(--radius-sm);
   }
 
-  .cuerpo { padding: 18px 18px 22px; }
+  .tarjeta:first-child img { aspect-ratio: 16 / 10; }
+  .tarjeta:first-child .cuerpo { margin-top: 16px; }
 
-  .cuerpo .icono {
-    width: 30px;
-    height: 30px;
+  .cuerpo {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: start;
+    gap: 4px 10px;
+  }
+
+  .cuerpo :global(.icono) {
+    width: 20px;
+    height: 20px;
     color: var(--blue);
   }
 
   h3 {
-    margin-top: 12px;
     font-size: 1.02rem;
     font-weight: 700;
     line-height: 1.25;
   }
 
   .cuerpo p {
-    margin-top: 8px;
+    grid-column: 2;
     font-size: 0.9rem;
     color: var(--ink-2);
+  }
+
+  @media (max-width: 760px) {
+    .grilla { grid-template-columns: 1fr; }
+    .tarjeta:first-child { grid-row: auto; }
   }
 </style>

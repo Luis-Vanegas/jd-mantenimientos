@@ -1,5 +1,5 @@
 ---
-// Franja de llamado a la acción entre secciones: una sola acción, WhatsApp.
+// Franja de contacto con la acción principal y los datos de la empresa.
 import Icono from '../Icono.astro';
 import { empresa } from '../../data/empresa';
 ---
@@ -20,11 +20,28 @@ import { empresa } from '../../data/empresa';
       <small>Rápido · Fácil · Sin complicaciones</small>
     </div>
   </div>
+
+  <ul class="wrap datos-contacto">
+    <li>
+      <Icono nombre="mail" />
+      <div>
+        <strong>Correo</strong>
+        <a href={`mailto:${empresa.correo}`}>{empresa.correo}</a>
+      </div>
+    </li>
+    <li>
+      <Icono nombre="pin" />
+      <div>
+        <strong>Ubicación</strong>
+        <p>{empresa.direccion}, {empresa.ciudad}</p>
+      </div>
+    </li>
+  </ul>
 </section>
 
 <style>
   .banda {
-    background: linear-gradient(100deg, var(--blue) 0%, var(--navy-2) 100%);
+    background: var(--navy-2);
     color: var(--white);
   }
 
@@ -34,7 +51,7 @@ import { empresa } from '../../data/empresa';
     align-items: center;
     justify-content: space-between;
     gap: 24px 40px;
-    padding-block: 40px;
+    padding-block: 36px 24px;
   }
 
   .mensaje {
@@ -68,6 +85,20 @@ import { empresa } from '../../data/empresa';
 
   .accion .btn { min-height: 54px; padding-inline: 28px; font-size: 1rem; }
   .accion small { font-size: 0.82rem; color: var(--ink-on-dark-2); }
+
+  .datos-contacto {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 36px;
+    padding-block: 18px 28px;
+    border-top: 1px solid var(--line-dark);
+  }
+
+  .datos-contacto li { display: flex; gap: 10px; min-width: 0; }
+  .datos-contacto :global(.icono) { margin-top: 2px; color: var(--accent); }
+  .datos-contacto strong { display: block; font-size: 0.875rem; }
+  .datos-contacto :is(a, p) { color: var(--ink-on-dark); overflow-wrap: anywhere; }
+  .datos-contacto a { text-decoration: underline; text-underline-offset: 0.2em; }
 
   @media (max-width: 560px) {
     .casco { display: none; }

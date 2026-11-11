@@ -2,6 +2,7 @@
 // Página de inicio. Solo compone las secciones; el contenido vive en `data/empresa.ts`
 // y el diseño de cada bloque en su propio componente de `components/inicio/`.
 import Base from '../layouts/Base.astro';
+import Icono from '../components/Icono.astro';
 import Encabezado from '../components/inicio/Encabezado.astro';
 import Hero from '../components/inicio/Hero.astro';
 import Servicios from '../components/inicio/Servicios.astro';
@@ -19,6 +20,11 @@ import { empresa } from '../data/empresa';
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
   <Encabezado />
 
+  <a class="btn btn-whatsapp whatsapp-flotante" href={empresa.whatsappHref} target="_blank" rel="noopener noreferrer">
+    <Icono nombre="wa" />
+    WhatsApp
+  </a>
+
   <main id="contenido">
     <Hero />
     <Servicios />
@@ -30,3 +36,33 @@ import { empresa } from '../data/empresa';
 
   <PiePagina />
 </Base>
+
+<style>
+  :global(html) {
+    --whatsapp-bottom: max(16px, env(safe-area-inset-bottom));
+    --whatsapp-clearance: calc(64px + var(--whatsapp-bottom));
+    scroll-padding-bottom: var(--whatsapp-clearance);
+  }
+
+  :global(#contacto) { padding-bottom: var(--whatsapp-clearance); }
+
+  .whatsapp-flotante {
+    position: fixed;
+    z-index: 50;
+    right: max(var(--gutter), env(safe-area-inset-right));
+    bottom: var(--whatsapp-bottom);
+    min-height: 48px;
+    padding-inline: 16px;
+    border-radius: 999px;
+    box-shadow: 0 5px 18px rgb(6 21 45 / 35%);
+  }
+
+  .whatsapp-flotante:focus-visible { background: var(--whatsapp-hover); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .whatsapp-flotante { animation: mostrar-whatsapp 0.48s cubic-bezier(0.16, 1, 0.3, 1); }
+    @keyframes mostrar-whatsapp {
+      from { opacity: 0.7; transform: translateY(10px); }
+    }
+  }
+</style>

@@ -1,122 +1,131 @@
 ---
-// Portada: mensaje principal a la izquierda y fotografía del técnico a la derecha,
-// fundida con el azul marino mediante un degradado para que el texto siempre sea legible.
+// El contenido precede a la imagen para que el contacto quede arriba en móvil.
 import { Image } from 'astro:assets';
 import Icono from '../Icono.astro';
 import { empresa, hero, pilaresHero } from '../../data/empresa';
 ---
 <section class="hero" id="inicio" aria-labelledby="hero-titulo">
-  <Image
-    class="hero-foto"
-    src={hero.imagen}
-    alt={hero.imagenAlt}
-    widths={[768, 1280, 1536]}
-    sizes="(max-width: 900px) 100vw, 60vw"
-    loading="eager"
-    fetchpriority="high"
-  />
+  <div class="wrap">
+    <div class="hero-contenido">
+      <h1 id="hero-titulo">
+        Soluciones para tu hogar <span>y obra, en un solo lugar</span>
+      </h1>
+      <p class="bajada">
+        Mantenimiento de redes hidrosanitarias, plomería, obras civiles, planos y una ferretería
+        completa. Todo lo que tu proyecto necesita, con calidad y confianza.
+      </p>
 
-  <div class="wrap hero-contenido">
-    <p class="kicker">{empresa.nombre}</p>
-    <h1 id="hero-titulo">
-      Soluciones para tu hogar <span>y obra, en un solo lugar</span>
-    </h1>
-    <p class="bajada">
-      Mantenimiento de redes hidrosanitarias, plomería, obras civiles, planos y una ferretería
-      completa. Todo lo que tu proyecto necesita, con calidad y confianza.
-    </p>
+      <div class="acciones">
+        <a class="btn btn-whatsapp" href={empresa.whatsappHref} target="_blank" rel="noopener noreferrer">
+          <Icono nombre="wa" />
+          Solicitar servicio por WhatsApp
+        </a>
+        <a class="btn btn-ghost" href="#servicios">
+          Ver servicios
+          <Icono nombre="arrow" />
+        </a>
+      </div>
 
-    <div class="acciones">
-      <a class="btn btn-whatsapp" href={empresa.whatsappHref} target="_blank" rel="noopener noreferrer">
-        <Icono nombre="wa" />
-        Solicitar servicio por WhatsApp
-      </a>
-      <a class="btn btn-ghost" href="#servicios">
-        Ver servicios
-        <Icono nombre="arrow" />
-      </a>
+      <ul class="pilares">
+        {pilaresHero.map((pilar) => (
+          <li>
+            <Icono nombre={pilar.icono} />
+            <span><strong>{pilar.titulo}</strong> {pilar.detalle}</span>
+          </li>
+        ))}
+      </ul>
     </div>
-
-    <ul class="pilares">
-      {pilaresHero.map((pilar) => (
-        <li>
-          <Icono nombre={pilar.icono} />
-          <span><strong>{pilar.titulo}</strong> {pilar.detalle}</span>
-        </li>
-      ))}
-    </ul>
   </div>
 
-  <p class="lema" aria-hidden="true">{empresa.lema}</p>
+  <div class="hero-visual">
+    <div class="hero-imagen">
+      <Image
+        class="hero-foto"
+        src={hero.imagen}
+        alt={hero.imagenAlt}
+        widths={[768, 1280, 1536]}
+        sizes="(max-width: 900px) 100vw, 50vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <span class="visor" aria-hidden="true"><span class="barrido"></span></span>
+    </div>
+    <div class="ficha">
+      <p>{empresa.nombre}</p>
+      <p class="lema" aria-hidden="true">{empresa.lema}</p>
+    </div>
+  </div>
 </section>
 
 <style>
   .hero {
     position: relative;
-    isolation: isolate;
-    overflow: hidden;
     background: var(--navy);
     color: var(--white);
   }
 
-  .hero-foto {
+  .hero-visual {
     position: absolute;
-    inset: 0 0 0 auto;
-    z-index: -2;
-    width: 62%;
-    height: 100%;
-    object-fit: cover;
-    object-position: 30% center;
+    inset: 0 0 0 50%;
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    background: var(--navy-2);
   }
 
-  /* Degradado que funde la foto con el fondo; sin él el texto perdería contraste. */
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: linear-gradient(90deg, var(--navy) 38%, rgb(6 21 45 / 70%) 58%, rgb(6 21 45 / 10%) 100%);
+  .hero-imagen { position: relative; min-height: 0; overflow: hidden; }
+
+  .hero-foto {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
   }
 
   .hero-contenido {
-    padding-block: clamp(56px, 9vw, 112px);
-    animation: aparecer 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+    width: 50%;
+    padding-block: clamp(48px, 6.5vw, 104px);
+    padding-inline-end: clamp(20px, 4vw, 60px);
   }
-
-  .hero .kicker { color: var(--ink-on-dark-2); }
 
   h1 {
-    max-width: 14ch;
-    margin-top: 16px;
-    font-size: clamp(2.25rem, 5.4vw, 3.75rem);
+    font-size: clamp(2.25rem, 4.2vw, 3.75rem);
     font-weight: 800;
-    line-height: 1.04;
-    letter-spacing: -0.025em;
+    line-height: 1.06;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
   }
 
-  h1 span { display: block; color: var(--accent); }
+  h1 span { color: var(--ink-on-dark); }
 
   .bajada {
-    max-width: 48ch;
-    margin-top: 20px;
-    font-size: 1.06rem;
+    max-width: 52ch;
+    margin-top: 16px;
+    text-wrap: pretty;
     color: var(--ink-on-dark);
   }
 
   .acciones {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: 12px;
-    margin-top: 32px;
+    margin-top: 24px;
+  }
+
+  .acciones .btn-ghost {
+    border-color: transparent;
+    padding-inline: 8px;
   }
 
   .pilares {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px 32px;
-    margin-top: 44px;
-    font-size: 0.92rem;
-    color: var(--ink-on-dark-2);
+    gap: 12px clamp(12px, 2vw, 26px);
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line-dark);
+    font-size: 0.88rem;
+    color: var(--ink-on-dark);
   }
 
   .pilares li {
@@ -125,9 +134,9 @@ import { empresa, hero, pilaresHero } from '../../data/empresa';
     gap: 10px;
   }
 
-  .pilares .icono {
-    width: 28px;
-    height: 28px;
+  .pilares :global(.icono) {
+    width: 22px;
+    height: 22px;
     color: var(--accent);
   }
 
@@ -137,34 +146,83 @@ import { empresa, hero, pilaresHero } from '../../data/empresa';
     font-weight: 600;
   }
 
-  .lema {
+  .ficha {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 4px 16px;
+    padding: 12px var(--gutter);
+    border-top: 1px solid var(--line-dark);
+    font-size: 0.88rem;
+  }
+
+  .ficha > :first-child { font-weight: 700; }
+  .lema { color: var(--ink-on-dark); }
+
+  .visor {
     position: absolute;
-    right: var(--gutter);
-    bottom: 28px;
-    padding: 8px 14px;
-    border-left: 3px solid var(--accent);
-    background: rgb(6 21 45 / 72%);
-    font-size: 0.9rem;
-    font-weight: 600;
-    font-style: italic;
+    inset: clamp(14px, 2.6vw, 38px);
+    pointer-events: none;
+    overflow: hidden;
+    color: var(--white);
   }
 
-  @keyframes aparecer {
-    from { opacity: 0; transform: translateY(14px); }
+  .visor::before,
+  .visor::after {
+    content: '';
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border: solid currentColor;
+    filter: drop-shadow(0 1px 2px var(--navy));
   }
 
-  /* En móvil la foto queda arriba del texto en lugar de detrás. */
-  @media (max-width: 900px) {
-    .hero-foto {
-      position: relative;
-      width: 100%;
-      height: auto;
-      aspect-ratio: 16 / 10;
+  .visor::before { top: 0; left: 0; border-width: 2px 0 0 2px; }
+  .visor::after { right: 0; bottom: 0; border-width: 0 2px 2px 0; }
+
+  .barrido {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    background: linear-gradient(90deg, transparent, var(--white), var(--accent), transparent)
+      no-repeat top / 100% 2px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .visor { animation: encuadrar-visor 0.65s cubic-bezier(0.16, 1, 0.3, 1); }
+    .barrido { animation: barrer-visor 0.95s 0.15s ease-out; }
+    .acciones .btn-ghost :global(.icono) { transition: transform 0.2s ease; }
+    .acciones .btn-ghost:is(:hover, :focus-visible) :global(.icono) { transform: translateX(4px); }
+
+    @keyframes encuadrar-visor { from { opacity: 0; transform: scale(1.12); } }
+    @keyframes barrer-visor {
+      0% { transform: translateY(0); }
+      22%, 75% { opacity: 0.95; }
+      100% { transform: translateY(100%); }
     }
+  }
 
-    .hero::before { display: none; }
+  @media (max-width: 900px) and (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: --entrada-visor) and (animation-range: entry 0% entry 100%) {
+      .hero-imagen { view-timeline-name: --entrada-visor; }
+      .barrido {
+        animation: barrer-visor linear both;
+        animation-timeline: --entrada-visor;
+        animation-range: entry 0% entry 100%;
+      }
+    }
+  }
 
-    .hero-contenido { padding-block: 32px 48px; }
-    .lema { display: none; }
+  @media (max-width: 900px) {
+    .hero-contenido { width: 100%; padding: 28px 0; }
+    h1 { max-width: 22ch; }
+    .hero-visual { position: relative; inset: auto; }
+    .hero-foto { height: auto; aspect-ratio: 16 / 9; }
+  }
+
+  @media (max-width: 480px) {
+    .acciones { gap: 4px 12px; }
+    .acciones .btn-whatsapp { width: 100%; }
   }
 </style>
